@@ -40,7 +40,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
     "password": "securePass123"
 }'
 ```
-*Expected Response*: 200 OK
+*Expected Response*: 201 OK
 ```bash
 {
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -61,7 +61,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
 *Expected Response*: 400 Bad Request
 ```bash
 {
-    "error": "Invalid input data"
+    "error": "All fields are required"
 }
 ```
 
