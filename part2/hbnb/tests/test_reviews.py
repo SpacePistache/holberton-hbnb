@@ -14,7 +14,15 @@ class TestReviewModel(unittest.TestCase):
 
     def setUp(self):
         """Setup before each test."""
-        self.place = Place(name="Test Place", description="A place for testing")
+        self.place = Place(
+                name="Test Place",
+                description="A place for testing",
+                city="Test City",
+                owner_id="12345",
+                latitude=40.7128,
+                longitude=-74.0060,
+                price=100.0
+            )
         self.place.save()  # Save to the database (adjust depending on your ORM)
         self.valid_review_data = {
             "text": "This is a great place!",
