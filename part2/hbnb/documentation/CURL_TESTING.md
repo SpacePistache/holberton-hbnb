@@ -105,7 +105,7 @@ curl -X POST "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: applicati
     "place_id": "valid-place-id"
 }'
 ```
-*Expected Response*: 200 OK
+*Expected Response*: 201 OK
 
 Invalid review (missing text):
 ```bash
