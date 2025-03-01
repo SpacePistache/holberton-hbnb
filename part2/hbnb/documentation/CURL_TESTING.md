@@ -29,9 +29,9 @@
 
 ## 2. Test Scenarios (using cURL)
 
-**User Endpoint Tests**
+### **User Endpoint Tests**
 
-Create a valid user:
+- Create a valid user:
 ```bash
 curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
     "first_name": "John",
@@ -49,7 +49,8 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
     "email": "john.doe@example.com"
 }
 ```
-Create an invalid user (missing fields):
+
+- Create an invalid user (missing fields):
 ```bash
 curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
     "first_name": "",
@@ -66,6 +67,66 @@ curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application
 
 ***
 
-**Place Endpoint Tests**
+### **Place Endpoint Tests**
+
+- Create a valid place:
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/places/" -H "Content-Type: application/json" -d '{
+    "name": "Cozy Cabin",
+    "description": "A peaceful retreat",
+    "city": "Denver",
+    "owner_id": "valid-user-id",
+    "latitude": 39.7392,
+    "longitude": -104.9903,
+    "price": 120.50
+}'
+```
+*Expected Response*: 200 OK
+
+- Invalid place (latitude out of range):
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/places/" -H "Content-Type: application/json" -d '{
+    "name": "Cozy Cabin",
+    "latitude": 100.0
+}'
+```
+*Expected Response*: 400 Bad Request
+
+***
+
+### **Review Endpoint Tests**
+
+- Create a valid review:
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: application/json" -d '{
+    "text": "Amazing place!",
+    "rating": 5,
+    "user_id": "valid-user-id",
+    "place_id": "valid-place-id"
+}'
+```
+*Expected Response*: 200 OK
+
+Invalid review (missing text):
+```bash
+curl -X POST "http://127.0.0.1:5000/api/v1/reviews/" -H "Content-Type: application/json" -d '{
+    "rating": 5,
+    "user_id": "valid-user-id",
+    "place_id": "valid-place-id"
+}'
+```
+*Expected Response*: 400 Bad Request
+
+## 3. Test Report Summary
+
+| Endpoint      | Test Case             | Status  | Expected Result |
+|---------------|----------------------|---------|-----------------|
+| /users/       | Create valid user     | ✅ Passed | 200 OK          |
+| /users/       | Invalid user data     | ✅ Passed | 400 Bad Request |
+| /places/      | Create valid place    | ✅ Passed | 200 OK          |
+| /places/      | Latitude out of range | ✅ Passed | 400 Bad Request |
+| /reviews/     | Create valid review   | ✅ Passed | 200 OK          |
+| /reviews/     | Missing review text   | ✅ Passed | 400 Bad Request |
 
 
+All tests were successfully conducted and passed as expected, ensuring robust validation and error handling across all API endpoints.
