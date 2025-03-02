@@ -33,6 +33,17 @@ class Place(BaseModel):
         self.validate_latitude()
         self.validate_longitude()
 
+
+    @property
+    def amenities(self):
+        """Get the list of amenities."""
+        return self._amenities
+
+    @amenities.setter
+    def amenities(self, value):
+        self._amenities = value
+
+
     @property
     def name(self):
         """Get the place's name."""
@@ -148,15 +159,6 @@ class Place(BaseModel):
         """Add a review to the place."""
         review = PlaceReview(review_text, rating, user_id)
         self._reviews.append(review)
-
-    @property
-    def amenities(self):
-        """Get the list of amenities."""
-        return self._amenities
-
-    @amenities.setter
-    def amenities(self, value):
-        self._amenities = value
 
     def add_amenity(self, amenity):
         """Add an amenity to the place."""
