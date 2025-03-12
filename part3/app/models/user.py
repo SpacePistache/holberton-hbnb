@@ -1,9 +1,18 @@
 from .basemodel import BaseModel
 import re
-import bcrypt
+import bcrypt, db
+from sqlalchemy.orm import validates
+from sqlalchemy.ext.hybrid import hybrid_property
 
 class User(BaseModel):
-    emails = set()
+    __tablename__ = 'users'
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+
 
     def __init__(self, first_name, last_name, email, password, is_admin=False):
         super().__init__()
@@ -37,22 +46,22 @@ class User(BaseModel):
         super().is_max_length('Last name', value, 50)
         self.__last_name = value
 
-    @property
-    def email(self):
-        return self.__email
+    @validates('email')
+    def validate_email(self, key, email):
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            raise ValueError("Invalid email address format.")
+        User.emails.add(email)
+        return email
 
-    @email.setter
-    def email(self, value):
-        if not isinstance(value, str):
-            raise TypeError("Email must be a string")
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", value):
-            raise ValueError("Invalid email format")
-        if value in User.emails:
-            raise ValueError("Email already exists")
-        if hasattr(self, "_User__email"):
-            User.emails.discard(self.__email)
-        self.__email = value
-        User.emails.add(value)
+    @validates('password')
+    def validate_password(self, key, password):
+        if len(password) < 8:
+            raise ValueError("Password must be at least 8 characters long.")
+        return password
+
+    @hybrid_property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
 
     @property
     def is_admin(self):

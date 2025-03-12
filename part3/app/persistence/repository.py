@@ -1,6 +1,6 @@
 from app import db  # Assuming you have set up SQLAlchemy in your Flask app
 
-class SQLAlchemyRepository(Repository):
+class SQLAlchemyRepository:
     def __init__(self, model):
         self.model = model
 
