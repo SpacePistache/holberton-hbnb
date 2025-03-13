@@ -1,4 +1,4 @@
-from .basemodel import BaseModel
+from app.models.basemodel import BaseModel
 from sqlalchemy.orm import validates
 from app import db
 

@@ -1,4 +1,4 @@
-from .basemodel import BaseModel
+from app.models.basemodel import BaseModel
 import re
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
