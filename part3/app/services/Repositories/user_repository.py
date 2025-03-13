@@ -7,12 +7,12 @@ class UserRepository(SQLAlchemyRepository):
     specialized methods for interacting with the User model.
     """
 
-    def __init__(self):
+    def __init__(self, model):
         """
         Initializes the UserRepository with the User model.
         This leverages all CRUD methods from the parent SQLAlchemyRepository.
         """
-        super().__init__(User)
+        super().__init__(model)
 
     def add(self, user):
         """
@@ -21,13 +21,13 @@ class UserRepository(SQLAlchemyRepository):
         This method takes a User object, adds it to the current SQLAlchemy session,
         and commits the changes to persist the user in the database.
         """
-        self.session.add(user)
-        self.session.commit()
+        #self.session.add(user)
+        #self.session.commit()
 
 
     def create_user(self, user_data):
         user = User(**user_data)
-        user.hash_password(user_data['password'])
+        #user.hash_password(user_data['password'])
         self.user_repo.add(user)
         return user
 

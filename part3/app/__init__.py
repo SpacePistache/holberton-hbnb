@@ -11,9 +11,6 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     app.config.from_object(config_class)
 
-    #  Configure BDD
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydb.db'
-
     db.init_app(app)
     bcrypt.init_app(app)
 
