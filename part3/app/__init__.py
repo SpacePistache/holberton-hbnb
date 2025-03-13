@@ -2,20 +2,23 @@ from flask import Flask
 from flask_restx import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_migrate import Migrate
 
-bcrypt = Bcrypt()
 db = SQLAlchemy()
+bcrypt = Bcrypt()
+migrate = Migrate()
 
 def create_app(config_class="config.DevelopmentConfig"):
+    """Factory function to create the Flask application"""
     app = Flask(__name__)
-
     app.config.from_object(config_class)
 
-    #  Configure BDD
+    #  Configure Database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydb.db'
 
     db.init_app(app)
     bcrypt.init_app(app)
+    migrate = Migrate(app, db)
 
     #  Import models after initialisation of db
     with app.app_context():
@@ -33,4 +36,5 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
     api.add_namespace(places_ns, path='/api/v1/places')
     api.add_namespace(reviews_ns, path='/api/v1/reviews')
+
     return app

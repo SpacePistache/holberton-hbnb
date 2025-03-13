@@ -4,9 +4,11 @@ from app.models.user import User
 from app.models.amenity import Amenity
 from app.models.place import Place
 from app.models.review import Review
+from app import db
 
 class HBnBFacade:
     def __init__(self):
+        self.session = db.session
         self.user_repository = UserRepository()
         self.place_repository = SQLAlchemyRepository(Place)
         self.review_repository = SQLAlchemyRepository(Review)
@@ -18,7 +20,7 @@ class HBnBFacade:
         user = User(**user_data)
         user.hash_password(user_data['password'])
         self.session.add(user)
-        self.commit()
+        self.session.commit()
         return user
     
     def get_users(self):

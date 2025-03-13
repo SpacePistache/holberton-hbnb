@@ -1,5 +1,6 @@
 from app.models.user import User
 from app.persistence.repository import SQLAlchemyRepository
+from app import db
 
 class UserRepository(SQLAlchemyRepository):
     """
@@ -12,6 +13,7 @@ class UserRepository(SQLAlchemyRepository):
         Initializes the UserRepository with the User model.
         This leverages all CRUD methods from the parent SQLAlchemyRepository.
         """
+        self.session = db.session
         super().__init__(User)
 
     def add(self, user):
@@ -28,7 +30,7 @@ class UserRepository(SQLAlchemyRepository):
     def create_user(self, user_data):
         user = User(**user_data)
         user.hash_password(user_data['password'])
-        self.user_repo.add(user)
+        self.add(user)
         return user
 
 
