@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, timezone
 
 class BaseModel(db.Model):
+    """Abstract base model that provides common attributes and methods for other models."""
     __abstract__ = True  # This ensures SQLAlchemy does not create a table for BaseModel
 
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
@@ -26,10 +27,12 @@ class BaseModel(db.Model):
 
 
     def is_max_length(self, name, value, max_length):
+        """Validate that a string does not exceed the maximum length."""
         if len(value) > max_length:
             raise ValueError(f"{name} must be {max_length} characters max.") 
 
 
     def is_between(self, name, value, min, max):
+        """Validate that a numerical value is within a specified range."""
         if not min < value < max:
             raise ValueError(f"{name} must be between {min} and {max}.")
