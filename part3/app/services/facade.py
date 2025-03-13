@@ -20,6 +20,7 @@ class HBnBFacade:
         #user.hash_password(user_data['password'])
         #self.session.add(user)
         #self.commit()
+        print(user.id)
         return user
     
     def get_users(self):

@@ -33,6 +33,7 @@ class UserList(Resource):
             # Hash the password before saving
             user_data['password'] = generate_password_hash(user_data['password'])
             new_user = facade.create_user(user_data)
+            print(new_user.id)
             return {'id': new_user.id, 'message': 'User successfully created'}, 201
         except Exception as e:
             return {'error': str(e)}, 400

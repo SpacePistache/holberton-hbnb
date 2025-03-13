@@ -13,9 +13,9 @@ class UserRepository(SQLAlchemyRepository):
         This leverages all CRUD methods from the parent SQLAlchemyRepository.
         """
         super().__init__(model)
-
+    """
     def add(self, user):
-        """
+        
         Add a new user to the database and commit the transaction.
 
         This method takes a User object, adds it to the current SQLAlchemy session,
