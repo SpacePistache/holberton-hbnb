@@ -1,8 +1,10 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
 from werkzeug.security import generate_password_hash
+from app.services.facade import HBnBFacade
 
 api = Namespace('users', description='User operations')
+facade = HBnBFacade()
 
 # Define the user model for input validation and documentation
 user_model = api.model('User', {

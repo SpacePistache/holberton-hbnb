@@ -14,6 +14,24 @@ class UserRepository(SQLAlchemyRepository):
         """
         super().__init__(User)
 
+    def add(self, user):
+        """
+        Add a new user to the database and commit the transaction.
+
+        This method takes a User object, adds it to the current SQLAlchemy session,
+        and commits the changes to persist the user in the database.
+        """
+        self.session.add(user)
+        self.session.commit()
+
+
+    def create_user(self, user_data):
+        user = User(**user_data)
+        user.hash_password(user_data['password'])
+        self.user_repo.add(user)
+        return user
+
+
     def get_user_by_email(self, email):
         """
         Retrieves a user from the database by email.

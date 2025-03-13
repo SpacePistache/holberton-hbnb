@@ -11,12 +11,14 @@ class HBnBFacade:
         self.place_repository = SQLAlchemyRepository(Place)
         self.review_repository = SQLAlchemyRepository(Review)
         self.amenity_repository = SQLAlchemyRepository(Amenity)
+        self.user_repo = UserRepository()
 
     # USER
     def create_user(self, user_data):
         user = User(**user_data)
         user.hash_password(user_data['password'])
-        self.user_repo.add(user)
+        self.session.add(user)
+        self.commit()
         return user
     
     def get_users(self):
@@ -26,7 +28,7 @@ class HBnBFacade:
         return self.user_repo.get(user_id)
 
     def get_user_by_email(self, email):
-        return self.user_repo.get_by_attribute('email', email)
+        return self.user_repo.get_user_by_email(email)
     
     def update_user(self, user_id, user_data):
         self.user_repo.update(user_id, user_data)

@@ -1,10 +1,10 @@
-from app import db  # Assuming you have set up SQLAlchemy in your Flask app
 
 class SQLAlchemyRepository:
     def __init__(self, model):
         self.model = model
 
     def add(self, obj):
+        from app import db
         db.session.add(obj)
         db.session.commit()
 
@@ -15,6 +15,7 @@ class SQLAlchemyRepository:
         return self.model.query.all()
 
     def update(self, obj_id, data):
+        from app import db
         obj = self.get(obj_id)
         if obj:
             for key, value in data.items():
@@ -22,6 +23,7 @@ class SQLAlchemyRepository:
             db.session.commit()
 
     def delete(self, obj_id):
+        from app import db
         obj = self.get(obj_id)
         if obj:
             db.session.delete(obj)

@@ -1,8 +1,11 @@
 from .basemodel import BaseModel
 import re
-import bcrypt, db
+import bcrypt
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
+
+from app import db
+from .basemodel import BaseModel
 
 class User(BaseModel):
     __tablename__ = 'users'
@@ -50,7 +53,7 @@ class User(BaseModel):
     def validate_email(self, key, email):
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             raise ValueError("Invalid email address format.")
-        User.emails.add(email)
+        User.email.add(email)
         return email
 
     @validates('password')
