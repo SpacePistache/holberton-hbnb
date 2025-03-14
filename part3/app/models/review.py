@@ -9,6 +9,7 @@ class Review(BaseModel):
 id = db.Column(db.Integer, primary_key=True)
 comment = db.Column(db.String(255), nullable=False)
 place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
+user = db.relationship('Review', backref='user', lazy=True)
 
 place = db.relationship('Place', backref='reviews')
 first_name = db.Column(db.String(50), nullable=False)
