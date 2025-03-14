@@ -6,6 +6,10 @@ class Place(BaseModel):
 
     __tablename__ = 'places'
 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
     _first_name = db.Column(db.String(50), nullable=False)
     _last_name = db.Column(db.String(50), nullable=False)
     _email = db.Column(db.String(120), nullable=False, unique=True)
