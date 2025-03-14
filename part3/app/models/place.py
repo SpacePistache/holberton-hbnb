@@ -1,18 +1,18 @@
 from .basemodel import BaseModel
 from .user import User
+from app import db
 
 class Place(BaseModel):
-    def __init__(self, title, price, latitude, longitude, owner, description=None):
-        super().__init__()
-        self.title = title
-        self.description = description
-        self.price = price
-        self.latitude = latitude
-        self.longitude = longitude
-        self.owner = owner
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
 
+    __tablename__ = 'places'
+
+    _first_name = db.Column(db.String(50), nullable=False)
+    _last_name = db.Column(db.String(50), nullable=False)
+    _email = db.Column(db.String(120), nullable=False, unique=True)
+    _password = db.Column(db.String(128), nullable=False)
+    _is_admin = db.Column(db.Boolean, default=False)
+
+    
     @property
     def title(self):
         return self.__title
