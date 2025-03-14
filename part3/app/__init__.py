@@ -14,7 +14,6 @@ def create_app(config_class="config.DevelopmentConfig"):
     db.init_app(app)
     bcrypt.init_app(app)
 
-    #  Import models after initialisation of db
     with app.app_context():
         from app.models.user import User
 

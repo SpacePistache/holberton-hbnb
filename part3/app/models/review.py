@@ -12,12 +12,7 @@ place_id = db.Column(db.Integer, db.ForeignKey('places.id'), nullable=False)
 user = db.relationship('Review', backref='user', lazy=True)
 
 place = db.relationship('Place', backref='reviews')
-first_name = db.Column(db.String(50), nullable=False)
-last_name = db.Column(db.String(50), nullable=False)
-email = db.Column(db.String(120), nullable=False, unique=True)
-password = db.Column(db.String(128), nullable=False)
-is_admin = db.Column(db.Boolean, default=False)
-	
+
 
 @property
 def text(self):
