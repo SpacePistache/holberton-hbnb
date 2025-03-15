@@ -16,7 +16,7 @@ class Place(BaseModel):
 
     user = db.relationship('User', backref='places', lazy=True)
     reviews = db.relationship('Review', backref='place', lazy=True)
-    amenities = db.relationship('Amenity', secondary='place_amenity', backref='place_reviews')
+    amenities = db.relationship('Amenity', secondary='place_amenity', backref='place')
     
 
 
