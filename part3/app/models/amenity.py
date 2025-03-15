@@ -18,13 +18,12 @@ class Amenity(BaseModel):
 
     places = db.relationship('Place', secondary=place_amenity, back_populates='amenities')
 
-    
+
     def to_dict(self):
         return {
 			'id': self.id,
 			'name': self.name
 		}
-
 
 
     @property
@@ -40,6 +39,7 @@ class Amenity(BaseModel):
             raise ValueError("Name cannot be empty")
         super().is_max_length('Name', value, 50)
         self.__name = value
+
 
     def update(self, data):
 	    return super().update(data)

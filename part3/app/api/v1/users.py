@@ -24,13 +24,13 @@ class UserList(Resource):
     def post(self):
         """Register a new user"""
         user_data = api.payload
-        # Simulate email uniqueness check (to be replaced by real validation with persistence)
+
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
             return {'error': 'Email already registered'}, 400
 
         try:
-            # Hash the password before saving
+
             user_data['password'] = generate_password_hash(user_data['password'])
             new_user = facade.create_user(user_data)
             print(new_user.id)
@@ -66,7 +66,7 @@ class UserResource(Resource):
         if not user:
             return {'error': 'User not found'}, 404
         try:
-            # If the password is provided in the update request, hash it before saving
+
             if 'password' in user_data:
                 user_data['password'] = generate_password_hash(user_data['password'])
             facade.update_user(user_id, user_data)
