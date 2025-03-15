@@ -2,6 +2,7 @@ from .basemodel import BaseModel
 from .place import Place
 from .user import User
 from app import db
+import uuid
 
 class Review(BaseModel):
     __tablename__ = 'reviews'
