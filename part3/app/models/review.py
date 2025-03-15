@@ -15,7 +15,7 @@ class Review(BaseModel):
 
 
     user = db.relationship('User', backref='reviews')
-    place = db.relationship('Place', backref='reviews')
+    place = db.relationship('Place', backref='place_reviews')
 
 
     def to_dict(self):
