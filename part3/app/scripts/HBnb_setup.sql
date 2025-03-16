@@ -74,3 +74,8 @@ INSERT INTO amenity (id, name) VALUES
 
 SELECT * FROM users;
 SELECT * FROM amenity;
+
+INSERT INTO users (id, first_name, last_name, email, password, is_admin)
+VALUES (UUID(), 'John', 'Doe', 'john@example.com', '$2b$12$y6wM5KtUXxHF/N8T7xLoqOfjOCp6cFJ8HzJ9O2gjJpNqF6R76Q6p2', FALSE);
+
+SELECT * FROM users;
