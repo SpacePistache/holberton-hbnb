@@ -1,14 +1,20 @@
 from app.models.basemodel import BaseModel
 from sqlalchemy.orm import validates
 from app import db
+import uuid
 
 class Review(BaseModel):
     """Review model representing user reviews for places."""
     __tablename__ = 'reviews'
 
-    id = db.Column(db.Integer, primary_key=True)  # Primary key
-    text = db.Column(db.Text, nullable=False)
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    comment = db.Column(db.String(255), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+
+    user = db.relationship('User', backref='reviews')
+    place = db.relationship('Place', backref='place_reviews')
 
 
     def __init__(self, text, rating):
