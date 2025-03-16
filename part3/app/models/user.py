@@ -49,7 +49,10 @@ class User(BaseModel):
 
     @password.setter
     def password(self, value):
-        self._password = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        if not value.startswith("scrypt"):
+            self._password = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        else:
+            self._password = value
 
     @hybrid_property
     def is_admin(self):
@@ -61,8 +64,8 @@ class User(BaseModel):
 
     def add_place(self, place):
         """Associate a place with the user."""
-        if self.places is not None:
-            self.places.append(place)
+        if self.user_places is not None:
+            self.user_places.append(place)
             db.session.commit()
 
     def add_review(self, review):
@@ -74,7 +77,7 @@ class User(BaseModel):
     def delete_review(self, review):
         """Delete review."""
         if review in self.reviews:
-            self.reviews.remove(review)
+            db.session.delete(review)
             db.session.commit()
 
     def to_dict(self):
