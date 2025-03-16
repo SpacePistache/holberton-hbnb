@@ -14,7 +14,7 @@ class Review(BaseModel):
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
 
 
-    user = db.relationship('User', backref='reviews')
+
     place = db.relationship('Place', backref='place_reviews')
 
 
