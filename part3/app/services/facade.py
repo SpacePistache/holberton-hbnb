@@ -35,6 +35,14 @@ class HBnBFacade:
     def update_user(self, user_id, user_data):
         self.user_repo.update(user_id, user_data)
     
+    def delete_user(self, user_id):
+        """Delete a user by ID without deleting associated places and reviews."""
+        user = self.user_repo.get(user_id)
+        if not user:
+            return False
+        self.user_repo.delete(user_id)
+        return True
+
     # AMENITY
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
