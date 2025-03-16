@@ -20,6 +20,7 @@ class UserList(Resource):
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
+    @api.response(400, 'Invalid password data')
     def post(self):
         """Register a new user"""
         user_data = api.payload
@@ -67,7 +68,27 @@ class UserResource(Resource):
             # If the password is provided in the update request, hash it before saving
             if 'password' in user_data:
                 user_data['password'] = generate_password_hash(user_data['password'])
-            facade.update_user(user_id, user_data)
-            return {'id': user.id, 'message': 'User updated successfully'}, 200
+
+            updated_user = facade.update_user(user_id, user_data)
+
+            if not updated_user:
+                return {'error': 'Update failed'}, 400
+
+            return {'id': updated_user.id, 'message': 'User updated successfully', 'data': updated_user.to_dict()}, 200
+
+        except Exception as e:
+            return {'error': str(e)}, 400
+
+    @api.response(200, 'User deleted successfully')
+    @api.response(404, 'User not found')
+    def delete(self, user_id):
+        """Delete a user by ID"""
+        user = facade.get_user(user_id)
+        if not user:
+            return {'error': 'User not found'}, 404
+
+        try:
+            facade.delete_user(user_id)
+            return {'message': 'User deleted successfully'}, 200
         except Exception as e:
             return {'error': str(e)}, 400

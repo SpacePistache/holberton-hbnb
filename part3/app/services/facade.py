@@ -39,8 +39,27 @@ class HBnBFacade:
         return self.user_repository.get_user_by_email(email)
 
     def update_user(self, user_id, user_data):
-        """Update user information."""
-        self.user_repository.update(user_id, user_data)
+        """Update user informations"""
+        user = db.session.get(User, user_id)
+        if not user:
+            return None
+
+        for key, value in user_data.items():
+            setattr(user, key, value)
+
+        db.session.commit()
+        return user
+    
+    def delete_user(self, user_id):
+        """Delete a user from the database"""
+        user = self.session.get(User, user_id)
+        if not user:
+            return None
+
+        self.session.delete(user)
+        self.session.commit()
+        return True
+
 
     # AMENITY
     def create_amenity(self, amenity_data):
@@ -61,26 +80,47 @@ class HBnBFacade:
         """Update an amenity's information."""
         self.amenity_repository.update(amenity_id, amenity_data)
 
+    def delete_amenity(self, amenity_id):
+        """Delete an amenity by ID."""
+        amenity = self.amenity_repository.get(amenity_id)
+        if not amenity:
+            raise KeyError("Amenity not found")
+        
+        self.amenity_repository.delete(amenity_id)
+
     # PLACE
     def create_place(self, place_data):
         """Create a new place and associate it with an owner and amenities."""
-        user = self.user_repository.get(place_data['owner_id'])
-        if not user:
-            raise KeyError('Invalid input data: owner not found')
-        del place_data['owner_id']
-        place_data['owner'] = user
-        amenities = place_data.pop('amenities', [])
 
-        place = Place(**place_data)
-        self.place_repository.add(place)
-        user.add_place(place)
+        print("🔥 DEBUG: Requête POST reçue avec place_data =", place_data)
+
+        try:
+
+            print("Received place_data:", place_data)  # DEBUG
+
+            # Check if place_data contains the required fields
+            if not all(key in place_data for key in ["title", "price", "latitude", "longitude"]):
+                return {"error": "Missing required fields"}, 400
         
-        for amenity_data in amenities:
-            amenity = self.get_amenity(amenity_data['id'])
-            if amenity:
-                place.add_amenity(amenity)
-        
-        return place
+            # Check if latitude and longitude are numbers
+            try:
+                place_data["latitude"] = float(place_data["latitude"])
+                place_data["longitude"] = float(place_data["longitude"])
+            except ValueError:
+                return {"error": "Latitude and Longitude must be numbers"}, 400
+
+            print("Before creating Place object:", place_data)  # DEBUG
+
+            # Create the Place object
+            place = Place(**place_data)
+            print("Place object created:", place.to_dict())  # DEBUG
+
+            self.place_repository.add(place)
+            return place.to_dict(), 201
+
+        except Exception as e:
+            print("Error creating place:", str(e))
+            return {"error": str(e)}, 400  # Return the specific error
 
     def get_place(self, place_id):
         """Retrieve a place by ID."""
