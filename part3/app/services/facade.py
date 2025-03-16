@@ -85,23 +85,17 @@ class HBnBFacade:
         amenity = self.amenity_repository.get(amenity_id)
         if not amenity:
             raise KeyError("Amenity not found")
-        
+
         self.amenity_repository.delete(amenity_id)
 
     # PLACE
     def create_place(self, place_data):
         """Create a new place and associate it with an owner and amenities."""
 
-        print("🔥 DEBUG: Requête POST reçue avec place_data =", place_data)
-
         try:
-
-            print("Received place_data:", place_data)  # DEBUG
-
             # Check if place_data contains the required fields
             if not all(key in place_data for key in ["title", "price", "latitude", "longitude"]):
                 return {"error": "Missing required fields"}, 400
-        
             # Check if latitude and longitude are numbers
             try:
                 place_data["latitude"] = float(place_data["latitude"])
@@ -109,18 +103,15 @@ class HBnBFacade:
             except ValueError:
                 return {"error": "Latitude and Longitude must be numbers"}, 400
 
-            print("Before creating Place object:", place_data)  # DEBUG
-
             # Create the Place object
             place = Place(**place_data)
-            print("Place object created:", place.to_dict())  # DEBUG
 
             self.place_repository.add(place)
-            return place.to_dict(), 201
+            return place
 
         except Exception as e:
             print("Error creating place:", str(e))
-            return {"error": str(e)}, 400  # Return the specific error
+            return {"error": str(e)}, 400
 
     def get_place(self, place_id):
         """Retrieve a place by ID."""
@@ -131,8 +122,16 @@ class HBnBFacade:
         return self.place_repository.get_all()
 
     def update_place(self, place_id, place_data):
-        """Update place information."""
-        self.place_repository.update(place_id, place_data)
+        """Update place information in the database"""
+        place = self.session.get(Place, place_id)
+        if not place:
+            return None
+
+        for key, value in place_data.items():
+            setattr(place, key, value)
+
+        self.session.commit()
+        return place
 
     # REVIEWS
     def create_review(self, review_data):

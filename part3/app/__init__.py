@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
+
 def create_app(config_class="config.DevelopmentConfig"):
     """Factory function to create the Flask application"""
     app = Flask(__name__)
