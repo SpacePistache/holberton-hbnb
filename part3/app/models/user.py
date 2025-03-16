@@ -47,7 +47,7 @@ class User(BaseModel):
 
     @password.setter
     def password(self, value):
-        self._password = value
+        self._password = bcrypt.hashpw(value.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     @hybrid_property
     def is_admin(self):
