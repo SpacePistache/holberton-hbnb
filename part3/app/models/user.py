@@ -71,19 +71,19 @@ class User(BaseModel):
 
     def to_dict(self):
         return {
-            'id': self.id,
+            '_id': self.id,
             '_first_name': self.first_name,
-            'last_name': self.last_name,
-            'email': self.email,
-            'password': self.password
+            '_last_name': self.last_name,
+            '_email': self.email,
+            '_password': self.password
         }
 
     def to_safe_dict(self):
         """Return a dictionary without the password field"""
         return {
-            'id': self.id,
+            '_id': self.id,
             '_first_name': self.first_name,
-            'last_name': self.last_name,
-            'email': self.email,
-            'is_admin': self.is_admin
+            '_last_name': self.last_name,
+            '_email': self.email,
+            '_is_admin': self.is_admin
         }
