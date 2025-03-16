@@ -21,7 +21,7 @@ class Review(BaseModel):
     def to_dict(self):
         return {
 			'id': self.id,
-			'text': self.text,
+			'comment': self.comment,
 			'rating': self.rating,
 			'place_id': self.place.id,
 			'user_id': self.user.id

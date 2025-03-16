@@ -16,6 +16,8 @@ class User(BaseModel):
     _password = db.Column(db.String(128), nullable=False)
     _is_admin = db.Column(db.Boolean, default=False)
 
+    places = db.relationship('Place', backref='owner', lazy=True)
+    reviews = db.relationship('Review', backref='reviewer', lazy=True)
 
     @hybrid_property
     def first_name(self):
@@ -58,16 +60,22 @@ class User(BaseModel):
         self._is_admin = value
 
     def add_place(self, place):
-        """Add an amenity to the place."""
-        self.places.append(place)
+        """Associate a place with the user."""
+        if self.places is not None:
+            self.places.append(place)
+            db.session.commit()
 
     def add_review(self, review):
-        """Add an amenity to the place."""
-        self.reviews.append(review)
+        """Add review."""
+        if self.reviews is not None:
+            self.reviews.append(review)
+            db.session.commit()
 
     def delete_review(self, review):
-        """Add an amenity to the place."""
-        self.reviews.remove(review)
+        """Delete review."""
+        if review in self.reviews:
+            self.reviews.remove(review)
+            db.session.commit()
 
     def to_dict(self):
         return {
