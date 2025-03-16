@@ -83,7 +83,6 @@ class User(BaseModel):
             '_first_name': self.first_name,
             '_last_name': self.last_name,
             '_email': self.email,
-            '_password': self.password
         }
 
     def to_safe_dict(self):
