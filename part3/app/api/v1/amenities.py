@@ -17,10 +17,6 @@ class AmenityList(Resource):
     def post(self):
         """Register a new amenity"""
         amenity_data = api.payload
-        
-        existing_amenity = facade.amenity_repository.get_by_attribute('name', amenity_data.get('name'))
-        if existing_amenity:
-            return {'error': 'Invalid input data'}, 400
         try:
             new_amenity = facade.create_amenity(amenity_data)
             return new_amenity.to_dict(), 201
@@ -57,5 +53,19 @@ class AmenityResource(Resource):
         try:
             facade.update_amenity(amenity_id, amenity_data)
             return {"message": "Amenity updated successfully"}, 200
+        except Exception as e:
+            return {'error': str(e)}, 400
+
+    @api.response(200, 'Amenity deleted successfully')
+    @api.response(404, 'Amenity not found')
+    def delete(self, amenity_id):
+        """Delete an amenity by ID"""
+        amenity = facade.get_amenity(amenity_id)
+        if not amenity:
+            return {'error': 'Amenity not found'}, 404
+
+        try:
+            facade.delete_amenity(amenity_id)
+            return {'message': 'Amenity deleted successfully'}, 200
         except Exception as e:
             return {'error': str(e)}, 400
