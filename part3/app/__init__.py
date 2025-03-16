@@ -15,14 +15,21 @@ def create_app(config_class="config.DevelopmentConfig"):
 
     #  Configure Database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydb.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
     bcrypt.init_app(app)
-    migrate = Migrate(app, db)
 
     #  Import models after initialisation of db
     with app.app_context():
         from app.models.user import User
+        from app.models.amenity import Amenity
+        from app.models.place import Place
+        from app.models.review import Review
+
+        db.create_all  # Creates the tables if they don't exist yet
+
+    migrate.init_app(app, db)  # Initialize Flask-Migrate
 
     #  Import and save Blueprints / Namespace
     from app.api.v1.users import api as users_ns
