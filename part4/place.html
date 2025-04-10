@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="login.html" id="login-link">Login</a>
+            <a href="index.html"><img src="./images/logo.png" class="logo" alt="HBnB-logo"/></a>
+        </nav>
+    </header>
+    <main>
+        <h1 class="place-title"><strong>Beautiful Beach House</strong></h1>
+        <section id="places-list">
+            <div class="place-card">
+                <p><strong>Host: </strong>John Doe</p>
+                <p><strong>Price per night: </strong>$150</p>
+                <p><strong>Description: </strong>A beautiful beach house with amazing views.</p>
+                <p><strong>Amenities: </strong>WiFi, Pool, Air Conditioning</p>
+            </div>
+        </section>
+        <h2>Reviews</h2>
+        <section id="reviews">
+            <div class="review-card">
+                <h4><strong>Jane Smith</strong></h4>
+                <p>Great place to stay!</p>
+                <h5><strong>Rating: ★★★★☆</strong></h5>
+            </div>
+            <div class="review-card">
+                <h4><strong>Robert Brown</strong></h4>
+                <p>Amazing location and very comfortable.</p>
+                <h5><strong>Rating: ★★★★★</strong></h5>
+            </div>
+        </section>
+        <section id="add-review">
+            <h2>Add a Review</h2><br>
+            <form id="review-form">
+                <button class="button" type="button" onclick="window.location.href='add_review.html'">Submit Review</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        All rights reserved.
+    </footer>
+    <script src="scripts.js"></script>
+</body>
+</html>
