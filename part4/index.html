@@ -18,31 +18,18 @@
         <section id="filter">
             <label for="price-filter">Max Price:</label>
             <select id="price-filter">
-                <option>All</option>
+                <option value="all">All</option>
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
             </select>
         </section>
         <section id="places-list">
-            <!-- List of places will be populated dynamically -->
-            <div class="place-card">
-                <h1><strong>Beautiful Beach House</strong></h1>
-                <p>Price per night: $150</p>
-                <button type="button" class="button"  onclick="window.location.href='place.html'">View Details</button>
-            </div>
-            <div class="place-card">
-                <h1><strong>Cozy Cabin</strong></h1>
-                <p>Price per night: $100</p>
-                <button type="button" class="button">View Details</button>
-            </div>
-            <div class="place-card">
-                <h1><strong>Modern Apartment</strong></h1>
-                <p>Price per night: $200</p>
-                <button type="button" class="button">View Details</button>
-            </div>
         </section>
     </main>
     <footer>
         <p>All rights reserved.</p>
     </footer>
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
