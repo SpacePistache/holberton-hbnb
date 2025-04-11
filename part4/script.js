@@ -20,10 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
               if (response.ok) {
                   const data = await response.json();
                   
-                  // Set cookie (secure, path=/, expires in 1 day)
                   document.cookie = `token=${data.access_token}; path=/; max-age=86400`;
 
-                  // Redirect to main page
                   window.location.href = 'index.html';
               } else {
                   const errorData = await response.json();
